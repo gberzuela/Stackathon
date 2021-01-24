@@ -24,7 +24,7 @@ router.post('/create_link_token', async (req, res, next) => {
         client_user_id
       },
       client_name: 'Stackathon',
-      products: ['transactions'],
+      products: ['transactions', 'auth'],
       country_codes: ['US'],
       language: 'en'
     })
@@ -37,25 +37,10 @@ router.post('/create_link_token', async (req, res, next) => {
 
 router.post('/get_access_token', async (req, res, next) => {
   PUBLIC_TOKEN = req.body.token
-  client.exchangePublicToken(PUBLIC_TOKEN, function(error, tokenResponse) {
-    if (error) {
-      res.send(error)
-      return
-    }
-    res.sendStatus(200)
-    ACCESS_TOKEN = tokenResponse.access_token
-    ITEM_ID = tokenResponse.item_id
-    res.json({
-      accessToken: ACCESS_TOKEN,
-      itemId: ITEM_ID
-    })
-    console.log('access token below')
-    console.log(ACCESS_TOKEN)
-  })
-  // const response = await client.exchangePublicToken(PUBLIC_TOKEN)
-  // ACCESS_TOKEN = response.access_token
-  // ITEM_ID = response.item_id
-  // res.send({ACCESS_TOKEN, ITEM_ID})
+  const response = await client.exchangePublicToken(PUBLIC_TOKEN)
+  ACCESS_TOKEN = response.access_token
+  ITEM_ID = response.item_id
+  res.send({ACCESS_TOKEN, ITEM_ID})
 })
 
 router.get('/accounts', (req, res, next) => {

@@ -11,11 +11,12 @@ class Link extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleOnExit() {
-    // TBA
+  handleOnExit(event) {
+    console.log('exit event -->', event)
   }
 
   async handleOnSuccess(token, metadata) {
+    console.log('got to success')
     const {data} = await axios.post('/api/plaid/get_access_token', {
       token
     })
@@ -28,14 +29,15 @@ class Link extends Component {
 
   render() {
     const {linkToken} = this.props
+    console.log('linkToken for PlaidLink -->', linkToken)
 
     return (
       <div>
         <PlaidLink
           clientName="Stackathon"
           token={linkToken}
-          // onExit={this.handleOnExit}
-          onSuccess={this.handleOnSuccess}
+          onExit={this.handleOnExit}
+          onSuccess={(token, metadata) => this.handleOnSuccess(token, metadata)}
         >
           Open Link and connect your bank!
         </PlaidLink>
