@@ -1,30 +1,44 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import Link from './Link'
+import {fetchLinkToken} from '../store/linkToken'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
+class UserHome extends Component {
+  componentDidMount() {
+    this.props.fetchLinkToken()
+  }
 
-  return (
-    <div>
-      <h3>Welcome, {email}</h3>
-    </div>
-  )
+  render() {
+    const {user, linkToken} = this.props
+
+    return (
+      <div>
+        <h3>Welcome, {user.email}</h3>
+        {linkToken.length && <Link linkToken={linkToken} />}
+      </div>
+    )
+  }
 }
 
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = ({user, linkToken}) => {
   return {
-    email: state.user.email
+    user,
+    linkToken
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatch = dispatch => ({
+  fetchLinkToken: () => dispatch(fetchLinkToken())
+})
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES
