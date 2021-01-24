@@ -2,8 +2,6 @@ const router = require('express').Router()
 const plaid = require('plaid')
 module.exports = router
 
-console.log('process.env stuff ********** ->', process.env.PLAID_ENV)
-
 const client = new plaid.Client({
   clientID: process.env.PLAID_CLIENT_ID,
   secret: process.env.PLAID_SECRET,
@@ -17,9 +15,8 @@ let ITEM_ID = null
 router.post('/create_link_token', async (req, res, next) => {
   try {
     // Get client user id
-    // const user = req.user
-    // const clientUserId = user.id.toString()
-    const client_user_id = '1'
+    const user = req.user
+    const client_user_id = user.id.toString()
 
     // Create link-token
     const tokenResponse = await client.createLinkToken({
