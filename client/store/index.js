@@ -4,8 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import linkToken from './linkToken'
+import bank from './bank'
 
-const reducer = combineReducers({user, linkToken})
+const reducer = combineReducers({user, linkToken, bank})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

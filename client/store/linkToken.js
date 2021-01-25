@@ -16,16 +16,10 @@ export const fetchLinkToken = () => async dispatch => {
   }
 }
 
-const initialState = {
-  linkToken: '',
-  accounts: [],
-  transactions: []
-}
-
-export default (state = initialState, action) => {
+export default (state = '', action) => {
   switch (action.type) {
     case GET_LINK_TOKEN:
-      return {...state, linkToken: action.token}
+      return action.token
     default:
       return state
   }

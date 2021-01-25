@@ -16,9 +16,21 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/bank', async (req, res, next) => {
+  try {
+    res.send({
+      accounts: await req.user.getAccounts(),
+      transaction: await req.user.getTransactions()
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.put('/sync', async (req, res, next) => {
   try {
     const {accounts, transactions} = req.body
+
     const accountRows = await Promise.all(
       accounts.map(account => {
         const {account_id, balances, name, official_name, subtype} = account
@@ -50,6 +62,7 @@ router.put('/sync', async (req, res, next) => {
       req.user.setAccounts(accountRows),
       req.user.setTransactions(transactionRows)
     ])
+
     res.sendStatus(200)
   } catch (error) {
     next(error)
