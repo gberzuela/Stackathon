@@ -21,8 +21,27 @@ form div {
   display: inline-block;
 }
 
-td {
+table {
+  padding: 15px 0;
+}
+
+tbody {
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.2);
+}
+
+tr {
   border: 1px solid black;
+}
+
+td {
+  padding: 5px;
+  font-size: 16px;
+}
+
+th {
+  text-align: center;
+  padding: 10px 10px;
+  border-bottom: 1px solid black;
 }
 
 .flex {
