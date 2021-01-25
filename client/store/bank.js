@@ -2,10 +2,10 @@ import axios from 'axios'
 
 const GET_BANK = 'GET_BANK'
 
-const getBank = (accounts, transaction) => ({
+const getBank = (accounts, transactions) => ({
   type: GET_BANK,
   accounts,
-  transaction
+  transactions
 })
 
 export const fetchBank = () => async dispatch => {

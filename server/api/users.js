@@ -20,7 +20,7 @@ router.get('/bank', async (req, res, next) => {
   try {
     res.send({
       accounts: await req.user.getAccounts(),
-      transaction: await req.user.getTransactions()
+      transactions: await req.user.getTransactions()
     })
   } catch (error) {
     next(error)

@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
 import {PlaidLink} from 'react-plaid-link'
+import {connect} from 'react-redux'
+import {fetchBank} from '../store/bank'
 import axios from 'axios'
 
 class Link extends Component {
   constructor() {
     super()
-    this.state = {
-      transactions: []
-    }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleOnExit = this.handleOnExit.bind(this)
+    this.handleOnSuccess = this.handleOnSuccess.bind(this)
+    this.sync = this.sync.bind(this)
   }
 
   handleOnExit(event) {
@@ -16,20 +17,29 @@ class Link extends Component {
   }
 
   async handleOnSuccess(token, metadata) {
-    console.log('got to success')
-    const {data} = await axios.post('/api/plaid/get_access_token', {
+    await axios.post('/api/plaid/get_access_token', {
       token
     })
   }
 
-  async handleClick() {
-    const {data} = await axios.get('/api/plaid/accounts')
-    console.log(data)
+  async sync() {
+    try {
+      const {data: {accounts, transactions}} = await axios.get(
+        '/api/plaid/transactions'
+      )
+
+      await axios.put('/api/users/sync', {
+        accounts,
+        transactions
+      })
+      this.props.fetchBank()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   render() {
     const {linkToken} = this.props
-    console.log('linkToken for PlaidLink -->', linkToken)
 
     return (
       <div>
@@ -42,8 +52,8 @@ class Link extends Component {
           Open Link and connect your bank!
         </PlaidLink>
         <div>
-          <button type="button" onClick={this.handleClick}>
-            Get Accounts
+          <button type="button" onClick={this.sync}>
+            Sync Account
           </button>
         </div>
       </div>
@@ -51,4 +61,8 @@ class Link extends Component {
   }
 }
 
-export default Link
+const mapDispatch = dispatch => ({
+  fetchBank: () => dispatch(fetchBank())
+})
+
+export default connect(null, mapDispatch)(Link)
