@@ -3,34 +3,38 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined'
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
+import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined'
+import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined'
+
+import '../style/navbar.css'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BOILERMAKER</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
+  <div className="navbar-container flex">
+    <h1>Stackathon</h1>
+    {isLoggedIn ? (
+      <div className="navbar-routes flex">
+        <Link to="/home">
+          <HomeOutlinedIcon />
+        </Link>
+        <a href="#" onClick={handleClick}>
+          <ExitToAppOutlinedIcon />
+        </a>
+      </div>
+    ) : (
+      <div className="navbar-routes flex">
+        <Link to="/login">
+          <LockOpenOutlinedIcon />
+        </Link>
+        <Link to="/signup">
+          <PersonAddOutlinedIcon />
+        </Link>
+      </div>
+    )}
   </div>
 )
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id

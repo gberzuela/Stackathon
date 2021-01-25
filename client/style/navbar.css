@@ -1,0 +1,10 @@
+.navbar-container {
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.navbar-routes {
+  width: 15%;
+  justify-content: space-evenly;
+}
