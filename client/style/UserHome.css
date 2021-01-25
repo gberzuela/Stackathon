@@ -5,6 +5,7 @@
 }
 
 .user-home-content {
-  justify-content: flex-end;
+  justify-content: space-evenly;
   flex: 4;
+  margin-top: 15px;
 }
