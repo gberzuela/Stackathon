@@ -4,8 +4,6 @@ import {connect} from 'react-redux'
 import {fetchBank} from '../store/bank'
 import axios from 'axios'
 
-import '../style/Link.css'
-
 class Link extends Component {
   constructor() {
     super()
