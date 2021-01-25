@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Account, Transaction} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -13,5 +13,45 @@ router.get('/', async (req, res, next) => {
     res.json(users)
   } catch (err) {
     next(err)
+  }
+})
+
+router.put('/sync', async (req, res, next) => {
+  try {
+    const {accounts, transactions} = req.body
+    const accountRows = await Promise.all(
+      accounts.map(account => {
+        const {account_id, balances, name, official_name, subtype} = account
+        return Account.create({
+          accountId: account_id,
+          name,
+          officialName: official_name,
+          subtype,
+          balance: balances.available
+        })
+      })
+    )
+
+    const transactionRows = await Promise.all(
+      transactions.map(transaction => {
+        const {account_id, name, amount, category, date, pending} = transaction
+        return Transaction.create({
+          accountId: account_id,
+          name,
+          amount,
+          category,
+          date,
+          pending
+        })
+      })
+    )
+
+    await Promise.all([
+      req.user.setAccounts(accountRows),
+      req.user.setTransactions(transactionRows)
+    ])
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
   }
 })

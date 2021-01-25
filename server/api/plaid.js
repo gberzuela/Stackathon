@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const plaid = require('plaid')
+const moment = require('moment')
 module.exports = router
 
 const client = new plaid.Client({
@@ -36,16 +37,32 @@ router.post('/create_link_token', async (req, res, next) => {
 })
 
 router.post('/get_access_token', async (req, res, next) => {
-  PUBLIC_TOKEN = req.body.token
-  const response = await client.exchangePublicToken(PUBLIC_TOKEN)
-  ACCESS_TOKEN = response.access_token
-  ITEM_ID = response.item_id
-  res.send({ACCESS_TOKEN, ITEM_ID})
+  try {
+    PUBLIC_TOKEN = req.body.token
+    const response = await client.exchangePublicToken(PUBLIC_TOKEN)
+    ACCESS_TOKEN = response.access_token
+    ITEM_ID = response.item_id
+    res.send({ACCESS_TOKEN, ITEM_ID})
+  } catch (error) {
+    next(error)
+  }
 })
 
-router.get('/accounts', (req, res, next) => {
-  client.getAccounts(ACCESS_TOKEN, (err, accountsResponse) => {
-    if (err) res.send(err)
-    res.send({error: null, accounts: accountsResponse})
-  })
+router.get('/transactions', async (req, res, next) => {
+  try {
+    const result = await client.getTransactions(
+      ACCESS_TOKEN,
+      moment()
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      moment().format('YYYY-MM-DD'),
+      {
+        count: 250,
+        offset: 0
+      }
+    )
+    res.send(result)
+  } catch (error) {
+    next(error)
+  }
 })
