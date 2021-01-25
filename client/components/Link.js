@@ -4,9 +4,14 @@ import {connect} from 'react-redux'
 import {fetchBank} from '../store/bank'
 import axios from 'axios'
 
+import '../style/Link.css'
+
 class Link extends Component {
   constructor() {
     super()
+    this.state = {
+      plaidLinked: false
+    }
     this.handleOnExit = this.handleOnExit.bind(this)
     this.handleOnSuccess = this.handleOnSuccess.bind(this)
     this.sync = this.sync.bind(this)
@@ -20,6 +25,7 @@ class Link extends Component {
     await axios.post('/api/plaid/get_access_token', {
       token
     })
+    this.setState({plaidLinked: true})
   }
 
   async sync() {
@@ -40,6 +46,7 @@ class Link extends Component {
 
   render() {
     const {linkToken} = this.props
+    const {plaidLinked} = this.state
 
     return (
       <div>
@@ -49,12 +56,14 @@ class Link extends Component {
           onExit={this.handleOnExit}
           onSuccess={(token, metadata) => this.handleOnSuccess(token, metadata)}
         >
-          Open Link and connect your bank!
+          Open Link to Plaid!
         </PlaidLink>
         <div>
-          <button type="button" onClick={this.sync}>
-            Sync Account
-          </button>
+          {plaidLinked && (
+            <button type="button" onClick={this.sync}>
+              Sync Account
+            </button>
+          )}
         </div>
       </div>
     )

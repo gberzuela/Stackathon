@@ -7,6 +7,8 @@ import Transactions from './Transactions'
 import {fetchLinkToken} from '../store/linkToken'
 import {fetchBank} from '../store/bank'
 
+import '../style/UserHome.css'
+
 class UserHome extends Component {
   componentDidMount() {
     this.props.fetchLinkToken()
@@ -17,11 +19,17 @@ class UserHome extends Component {
     const {user, linkToken} = this.props
 
     return (
-      <div>
-        <h3>Welcome, {user.email}</h3>
-        {linkToken.length && <Link linkToken={linkToken} />}
-        <Accounts />
-        <Transactions />
+      <div className="user-home-container flex">
+        <div className="user-home-header">
+          <p>
+            <strong>Welcome, {user.email}</strong>
+          </p>
+          {linkToken.length && <Link linkToken={linkToken} />}
+        </div>
+        <div className="user-home-content flex">
+          <Accounts />
+          <Transactions />
+        </div>
       </div>
     )
   }

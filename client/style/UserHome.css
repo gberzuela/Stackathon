@@ -1,0 +1,13 @@
+.user-home-container {
+}
+
+.user-home-header {
+  border-right: 1px solid black;
+  padding-right: 10px;
+  flex: 1;
+}
+
+.user-home-content {
+  justify-content: flex-end;
+  flex: 4;
+}
