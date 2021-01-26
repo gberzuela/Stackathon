@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import Link from './Link'
 import Accounts from './Accounts'
 import Transactions from './Transactions'
+import Graphs from './Graphs'
 import {fetchLinkToken} from '../store/linkToken'
 import {fetchBank, filterTransactions} from '../store/bank'
 
@@ -29,6 +30,7 @@ class UserHome extends Component {
         <div className="user-home-content">
           <Accounts handleFilter={this.props.filter} />
           <Transactions handleFilter={this.props.filter} />
+          <Graphs />
         </div>
       </div>
     )

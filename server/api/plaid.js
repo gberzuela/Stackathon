@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const plaid = require('plaid')
 const moment = require('moment')
+const {User} = require('../db')
 module.exports = router
 
 const client = new plaid.Client({
@@ -40,6 +41,7 @@ router.post('/get_access_token', async (req, res, next) => {
   try {
     PUBLIC_TOKEN = req.body.token
     const response = await client.exchangePublicToken(PUBLIC_TOKEN)
+    await req.user.update({accessToken: response.access_token})
     ACCESS_TOKEN = response.access_token
     ITEM_ID = response.item_id
     res.send({ACCESS_TOKEN, ITEM_ID})
@@ -51,7 +53,7 @@ router.post('/get_access_token', async (req, res, next) => {
 router.get('/transactions', async (req, res, next) => {
   try {
     const result = await client.getTransactions(
-      ACCESS_TOKEN,
+      req.user.accessToken,
       moment()
         .startOf('month')
         .format('YYYY-MM-DD'),

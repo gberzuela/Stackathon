@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {PlaidLink} from 'react-plaid-link'
 import {connect} from 'react-redux'
 import {fetchBank} from '../store/bank'
+import {me} from '../store/user'
 import axios from 'axios'
 
 class Link extends Component {
@@ -24,6 +25,7 @@ class Link extends Component {
       token
     })
     this.setState({plaidLinked: true})
+    this.props.getMe()
   }
 
   async sync() {
@@ -43,7 +45,7 @@ class Link extends Component {
   }
 
   render() {
-    const {linkToken} = this.props
+    const {linkToken, user: {accessToken}} = this.props
     const {plaidLinked} = this.state
 
     return (
@@ -57,7 +59,7 @@ class Link extends Component {
           Open Link to Plaid!
         </PlaidLink>
         <div>
-          {plaidLinked && (
+          {accessToken && (
             <button type="button" onClick={this.sync}>
               Sync Account
             </button>
@@ -68,8 +70,11 @@ class Link extends Component {
   }
 }
 
+const mapState = ({user}) => ({user})
+
 const mapDispatch = dispatch => ({
-  fetchBank: () => dispatch(fetchBank())
+  fetchBank: () => dispatch(fetchBank()),
+  getMe: () => dispatch(me())
 })
 
-export default connect(null, mapDispatch)(Link)
+export default connect(mapState, mapDispatch)(Link)
