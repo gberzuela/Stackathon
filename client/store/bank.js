@@ -39,9 +39,11 @@ export default (
         filtered: action.transactions
       }
     case FILTER: {
-      const setFiltered = state.transactions.filter(
-        transaction => transaction.accountId === action.accountId
-      )
+      const setFiltered = action.accountId
+        ? state.transactions.filter(
+            transaction => transaction.accountId === action.accountId
+          )
+        : state.transactions
       return {...state, filtered: setFiltered}
     }
     default:

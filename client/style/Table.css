@@ -4,4 +4,9 @@
 
 .account-selection:hover {
   background-color: #bffaff;
+  cursor: pointer;
+}
+
+.transaction-clicker:hover {
+  cursor: pointer;
 }

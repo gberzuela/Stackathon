@@ -28,7 +28,7 @@ class UserHome extends Component {
         </div>
         <div className="user-home-content">
           <Accounts handleFilter={this.props.filter} />
-          <Transactions />
+          <Transactions handleFilter={this.props.filter} />
         </div>
       </div>
     )

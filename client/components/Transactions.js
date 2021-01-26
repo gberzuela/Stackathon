@@ -5,11 +5,13 @@ import moment from 'moment'
 import '../style/Table.css'
 
 const Transactions = props => {
-  const {filtered} = props
+  const {filtered, handleFilter} = props
 
   return (
     <div>
-      <p>Transactions</p>
+      <p className="transaction-clicker" onClick={() => handleFilter()}>
+        Transactions
+      </p>
       <table>
         <tbody>
           <tr>
