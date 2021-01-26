@@ -44,7 +44,7 @@ router.put('/sync', async (req, res, next) => {
       })
     )
 
-    const transactionRows = await Promise.all(
+    let transactionRows = await Promise.all(
       transactions.map(transaction => {
         const {account_id, name, amount, category, date, pending} = transaction
         return Transaction.create({

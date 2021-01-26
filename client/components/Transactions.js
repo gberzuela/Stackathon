@@ -5,7 +5,7 @@ import moment from 'moment'
 import '../style/Table.css'
 
 const Transactions = props => {
-  const {transactions} = props
+  const {filtered} = props
 
   return (
     <div>
@@ -18,8 +18,8 @@ const Transactions = props => {
             <th>Date</th>
             <th>Amount</th>
           </tr>
-          {transactions.length ? (
-            transactions.map((transaction, idx) => (
+          {filtered.length ? (
+            filtered.map((transaction, idx) => (
               <tr key={transaction.id} className={idx % 2 ? 'grey' : ''}>
                 <td>{transaction.name}</td>
                 <td>{transaction.category.join(', ')}</td>
@@ -38,8 +38,8 @@ const Transactions = props => {
   )
 }
 
-const mapState = ({bank: {transactions}}) => ({
-  transactions
+const mapState = ({bank: {filtered}}) => ({
+  filtered
 })
 
 export default connect(mapState)(Transactions)

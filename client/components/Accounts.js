@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import '../style/Table.css'
 
 const Accounts = props => {
-  const {accounts} = props
+  const {accounts, handleFilter} = props
 
   return (
     <div>
@@ -20,6 +20,7 @@ const Accounts = props => {
               <tr
                 key={account.id}
                 className={`account-selection ${idx % 2 ? 'grey' : ''}`}
+                onClick={() => handleFilter(account.accountId)}
               >
                 <td>
                   {account.officialName ? account.officialName : account.name}

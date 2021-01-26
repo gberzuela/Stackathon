@@ -5,7 +5,7 @@ import Link from './Link'
 import Accounts from './Accounts'
 import Transactions from './Transactions'
 import {fetchLinkToken} from '../store/linkToken'
-import {fetchBank} from '../store/bank'
+import {fetchBank, filterTransactions} from '../store/bank'
 
 import '../style/UserHome.css'
 
@@ -27,7 +27,7 @@ class UserHome extends Component {
           {linkToken.length && <Link linkToken={linkToken} />}
         </div>
         <div className="user-home-content">
-          <Accounts />
+          <Accounts handleFilter={this.props.filter} />
           <Transactions />
         </div>
       </div>
@@ -44,7 +44,8 @@ const mapState = ({user, linkToken}) => {
 
 const mapDispatch = dispatch => ({
   fetchLinkToken: () => dispatch(fetchLinkToken()),
-  fetchBank: () => dispatch(fetchBank())
+  fetchBank: () => dispatch(fetchBank()),
+  filter: accountId => dispatch(filterTransactions(accountId))
 })
 
 export default connect(mapState, mapDispatch)(UserHome)
