@@ -5,11 +5,10 @@ import '../style/Table.css'
 
 const Accounts = props => {
   const {accounts} = props
-  // console.log('Accounts component -->', accounts)
-  // accounts.forEach((account) => console.log(account))
+
   return (
     <div>
-      Accounts
+      <p>Accounts</p>
       <table>
         <tbody>
           <tr>
@@ -18,9 +17,14 @@ const Accounts = props => {
           </tr>
           {accounts.length ? (
             accounts.map((account, idx) => (
-              <tr key={account.id} className={idx % 2 ? 'grey' : ''}>
-                <td>{account.name}</td>
-                <td>{account.balance ? account.balance : 0}</td>
+              <tr
+                key={account.id}
+                className={`account-selection ${idx % 2 ? 'grey' : ''}`}
+              >
+                <td>
+                  {account.officialName ? account.officialName : account.name}
+                </td>
+                <td>${account.balance ? account.balance : '0.00'}</td>
               </tr>
             ))
           ) : (

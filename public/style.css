@@ -21,8 +21,15 @@ form div {
   display: inline-block;
 }
 
+p {
+  padding: 15px;
+  margin: 0;
+  text-decoration: underline;
+}
+
 table {
-  padding: 15px 0;
+  padding: 15px 15px 50px 15px;
+  width: 100%;
 }
 
 tbody {

@@ -1,3 +1,7 @@
 .grey {
   background-color: lightgray;
 }
+
+.account-selection:hover {
+  background-color: #bffaff;
+}

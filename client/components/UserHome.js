@@ -26,7 +26,7 @@ class UserHome extends Component {
           </p>
           {linkToken.length && <Link linkToken={linkToken} />}
         </div>
-        <div className="user-home-content flex">
+        <div className="user-home-content">
           <Accounts />
           <Transactions />
         </div>

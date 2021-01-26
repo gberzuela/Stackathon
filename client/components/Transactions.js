@@ -6,10 +6,10 @@ import '../style/Table.css'
 
 const Transactions = props => {
   const {transactions} = props
-  console.log('Transactions component -->', transactions)
+
   return (
     <div>
-      Transactions
+      <p>Transactions</p>
       <table>
         <tbody>
           <tr>
@@ -24,7 +24,7 @@ const Transactions = props => {
                 <td>{transaction.name}</td>
                 <td>{transaction.category.join(', ')}</td>
                 <td>{moment(transaction.date).format('YYYY-MM-DD')}</td>
-                <td>{transaction.amount}</td>
+                <td>${transaction.amount}</td>
               </tr>
             ))
           ) : (
